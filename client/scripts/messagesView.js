@@ -3,6 +3,11 @@ var MessagesView = {
   $chats: $('#chats'),
 
   initialize: function() {
+    this.render();
+
+  },
+
+  render: function() {
     Parse.readAll((data) => {
       // Alt for loop for testing
       // for (var i = 15; i < data.results.length; i++) {
@@ -12,21 +17,13 @@ var MessagesView = {
         this.renderMessage(val);
       }
     })
+
   },
 
   renderMessage: function(message) {
-    // App.fetch((data) => iterate the messages array
 
-    // expects an object
-    // parses the object using MessageView.render
-    var test = MessageView.render(message);
-    // console.log(test);
-    $('#chats').append(test);
+    var messageObject = MessageView.render(message);
 
-    // Parse.readAll((data) => {
-    //   for (var val of data.results) {
-    //     $('#chats').append(MessageView.render(val));
-    //   }
-    // });
+    $('#chats').append(messageObject);
   }
 };
