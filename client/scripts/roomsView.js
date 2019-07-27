@@ -11,7 +11,7 @@ var RoomsView = {
     Parse.readAll((data) => {
       var roomStorage = {}
       for (var val of data.results) {
-        if (typeof val.roomname !== 'undefined' && !val.roomname.includes('<script>')) {
+        if (typeof val.roomname !== 'undefined' && val.roomname !== null && !val.roomname.includes('<script>')) {
           if (!roomStorage.hasOwnProperty(val.roomname)) {
             roomStorage[val.roomname] = val.roomname;
             this.renderRoom(val.roomname);
@@ -27,3 +27,7 @@ var RoomsView = {
     this.$select.append(`<option value = "${roomname}">${roomname}</option>`);
   }
 };
+
+//click handler
+
+$("#rooms").on("click", "button", function() { Rooms.add(); });

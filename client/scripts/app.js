@@ -14,6 +14,8 @@ var App = {
     App.startSpinner();
     App.fetch(App.stopSpinner);
 
+    App.refreshMessages();
+
   },
 
   fetch: function(callback = ()=>{}) {
@@ -34,5 +36,13 @@ var App = {
   stopSpinner: function() {
     App.$spinner.fadeOut('fast');
     FormView.setStatus(false);
+  },
+
+  refreshMessages: function(){
+    setTimeout(function() {
+      MessagesView.render();
+      // $('#chats').html('');
+      App.refreshMessages();}.bind(this), Math.random() * 15000);
   }
+
 };
