@@ -6,7 +6,6 @@ var App = {
 
   initialize: function() {
     App.username = window.location.search.substr(10);
-
     FormView.initialize();
     RoomsView.initialize();
     MessagesView.initialize();
@@ -21,9 +20,10 @@ var App = {
     Parse.readAll((data) => {
       // examine the response from the server request:
       console.log(data);
-
       callback();
+      // should we return data here?
     });
+    // return data;
   },
 
   startSpinner: function() {
