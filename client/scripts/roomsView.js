@@ -11,9 +11,11 @@ var RoomsView = {
     Parse.readAll((data) => {
       var roomStorage = {}
       for (var val of data.results) {
-        if (!roomStorage.hasOwnProperty(val.roomname)) {
-          roomStorage[val.roomname] = val.roomname;
-          this.renderRoom(val.roomname);
+        if (typeof val.roomname !== 'undefined' && !val.roomname.includes('<script>')) {
+          if (!roomStorage.hasOwnProperty(val.roomname)) {
+            roomStorage[val.roomname] = val.roomname;
+            this.renderRoom(val.roomname);
+          }
         }
       }
     })
