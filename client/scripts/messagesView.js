@@ -14,10 +14,17 @@ var MessagesView = {
       //   this.renderMessage(data.results[i]);
       // }
       for (var val of data.results) {
-        this.renderMessage(val);
+        if (!val.text.includes('<script>')) {
+          if (!val.username) {
+            val.username = "Silly Spy"
+          }
+          if (!val.text) {
+            val.text = "STUPID! STUPID! STUPID!"
+          }
+          this.renderMessage(val);
+        }
       }
     })
-
   },
 
   renderMessage: function(message) {
