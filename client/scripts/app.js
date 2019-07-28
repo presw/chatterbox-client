@@ -20,12 +20,9 @@ var App = {
 
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
-      // examine the response from the server request:
       console.log(data);
       callback();
-      // should we return data here?
     });
-    // return data;
   },
 
   startSpinner: function() {
@@ -41,7 +38,6 @@ var App = {
   refreshMessages: function(){
     setTimeout(function() {
       MessagesView.render();
-      // $('#chats').html('');
       App.refreshMessages();}.bind(this), Math.random() * 15000);
   }
 

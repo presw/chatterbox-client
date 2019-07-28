@@ -22,17 +22,18 @@ var RoomsView = {
   },
 
   renderRoom: function(roomname) {
-    // var roomname = RoomsView.render(message);
-
     this.$select.append(`<option value = "${roomname}">${roomname}</option>`);
   }
 };
 
-//click handler
+// Click handlers
 
 $('#rooms').on('click', 'button', function() { Rooms.add(); });
 
 $('select').on('change', function() {
   Rooms.currentRoom = $('#room-select').val();
+  console.log($('#room-select').val());
+  $('#chats').empty();
+  console.log(Rooms.currentRoom);
   MessagesView.render(Rooms.currentRoom, true);
 });

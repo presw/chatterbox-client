@@ -22,12 +22,9 @@ var MessagesView = {
           break;
         }
       }
-
       if (refresh) {
-        $('#chats').html('');
         lastMessageIndex = messages.length;
       }
-
       // display new messages
       for (let i = lastMessageIndex - 1; i >= 0; i--) {
         let messageObj = messages[i];
@@ -37,9 +34,11 @@ var MessagesView = {
             messageObj.username = "anon";
           }
           if (!messageObj.text) {
-            messageObj.text = "STUPID! STUPID! STUPID!"
+            messageObj.text = "no text provided";
           }
+          console.log(Rooms.roomname);
           if (Rooms.roomname) {
+            console.log("are we hitting this if?");
             if (Rooms.roomname === messageObj.roomname) {
               this.renderMessage(messageObj);
             }
