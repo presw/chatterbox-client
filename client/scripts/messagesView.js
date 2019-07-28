@@ -8,7 +8,21 @@ var MessagesView = {
 
   render: function() {
     Parse.readAll((data) => {
-      for (var val of data.results) {
+
+      var lastMessageIndex = data.results.length;
+
+      // find last message
+      for (var i = 0; i < data.results.length; i++) {
+        var val = data.results[i];
+        if (val.objectId === Messages.lastMessage.objectId) {
+          lastMessageIndex = i;
+          break;
+        }
+      }
+
+      for (var i = lastMessageIndex - 1; i >= 0; i--) {
+        var val = data.results[i];
+
         if (!val.text || !val.text.includes('<script>')) {
           if (!val.username) {
             val.username = "Silly Spy"
@@ -16,16 +30,11 @@ var MessagesView = {
           if (!val.text) {
             val.text = "STUPID! STUPID! STUPID!"
           }
-          this.appendMessage(val);
+          this.renderMessage(val);
         }
       }
+      Messages.lastMessage = data.results[0];
     });
-  },
-
-  appendMessage: function(message) {
-
-    var messageObject = MessageView.render(message);
-    $('#chats').append(messageObject);
   },
 
   renderMessage: function(message) {
