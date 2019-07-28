@@ -30,4 +30,9 @@ var RoomsView = {
 
 //click handler
 
-$("#rooms").on("click", "button", function() { Rooms.add(); });
+$('#rooms').on('click', 'button', function() { Rooms.add(); });
+
+$('select').on('change', function() {
+  Rooms.currentRoom = $('#room-select').val();
+  MessagesView.render(Rooms.currentRoom, true);
+});

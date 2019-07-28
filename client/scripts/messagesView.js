@@ -6,31 +6,46 @@ var MessagesView = {
     this.render();
   },
 
-  render: function() {
+  render: function(roomname = Rooms.currentRoom, refresh = false) {
+    // Render should reset lastMessage when passing true;
+
     Parse.readAll((data) => {
+      let messages = data.results;
 
-      var lastMessageIndex = data.results.length;
+      let lastMessageIndex = messages.length;
 
-      // find last message
-      for (var i = 0; i < data.results.length; i++) {
-        var val = data.results[i];
-        if (val.objectId === Messages.lastMessage.objectId) {
+      // find last message displayed
+      for (let i = 0; i < messages.length; i++) {
+        let messageObj = messages[i];
+        if (messageObj.objectId === Messages.lastMessage.objectId) {
           lastMessageIndex = i;
           break;
         }
       }
 
-      for (var i = lastMessageIndex - 1; i >= 0; i--) {
-        var val = data.results[i];
+      if (refresh) {
+        $('#chats').html('');
+        lastMessageIndex = messages.length;
+      }
 
-        if (!val.text || !val.text.includes('<script>')) {
-          if (!val.username) {
-            val.username = "Silly Spy"
+      // display new messages
+      for (let i = lastMessageIndex - 1; i >= 0; i--) {
+        let messageObj = messages[i];
+
+        if (!messageObj.text || !messageObj.text.includes('<script>')) {
+          if (!messageObj.username) {
+            messageObj.username = "anon";
           }
-          if (!val.text) {
-            val.text = "STUPID! STUPID! STUPID!"
+          if (!messageObj.text) {
+            messageObj.text = "STUPID! STUPID! STUPID!"
           }
-          this.renderMessage(val);
+          if (Rooms.roomname) {
+            if (Rooms.roomname === messageObj.roomname) {
+              this.renderMessage(messageObj);
+            }
+          } else {
+            this.renderMessage(messageObj);
+          }
         }
       }
       Messages.lastMessage = data.results[0];
@@ -38,7 +53,7 @@ var MessagesView = {
   },
 
   renderMessage: function(message) {
-    var messageObject = MessageView.render(message);
+    let messageObject = MessageView.render(message);
     $('#chats').prepend(messageObject);
   }
 };
